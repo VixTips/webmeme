@@ -8,14 +8,10 @@ import {buildSchema} from 'type-graphql';
 import { HelloResolver } from "./resolvers/hello";
 import { PostResolver } from "./resolvers/post";
 
-import { test } from './test/test';
-
 const main = async () => 
 {    
         const orm = await MikroORM.init(config);
         orm.getMigrator().up();
-
-        console.log(test);
 
         const app = express();
         const apolloServer = new ApolloServer(
