@@ -7,6 +7,7 @@ import { ApolloServer } from "apollo-server-express";
 import {buildSchema} from 'type-graphql';
 import { HelloResolver } from "./resolvers/hello";
 import { PostResolver } from "./resolvers/post";
+import { UserResolver } from './resolvers/user';
 
 const main = async () => 
 {    
@@ -18,7 +19,7 @@ const main = async () =>
             {
                 schema: await buildSchema(
                     {
-                        resolvers: [PostResolver, HelloResolver],
+                        resolvers: [PostResolver, HelloResolver, UserResolver],
                         validate: false,
                     }
                 ),
@@ -30,9 +31,9 @@ const main = async () =>
         apolloServer.applyMiddleware( { app } );
         
         app.listen(4000, () =>
-        {
-            console.log("[SERVER] Found a connection on port 4000");
-        }
+            {
+                console.log("[SERVER] Started listening on port 4000");
+            }
         );
         
         //await apolloServer.stop();

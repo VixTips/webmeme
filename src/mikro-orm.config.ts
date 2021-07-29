@@ -2,12 +2,13 @@ import { Options } from "@mikro-orm/core";
 import { __db_password__, __db_user__, __prod__ } from "./constants";
 import { Post } from "./entities/Post";
 import path from 'path'
+import { User } from "./entities/User";
 
 
 
 const config: Options = 
 {
-    entities: [Post],
+    entities: [Post, User],
     dbName: 'website',
     user: __db_user__,
     password: __db_password__,
