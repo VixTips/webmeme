@@ -1,0 +1,30 @@
+{
+  "name": "website",
+  "version": "1.0.0",
+  "description": "React Typescript GraphQL URQL/Apollo node js postres mikroORM Redis next js typegraphQL",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "tsc -w",
+    "dev": "env-cmd -f /config/dev.env nodemon dist/index.js",
+    "start": "node dist/index.js",
+    "start2": "ts-node src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^16.4.6",
+    "nodemon": "^2.0.12",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "@mikro-orm/cli": "^4.5.7",
+    "@mikro-orm/core": "^4.5.7",
+    "@mikro-orm/migrations": "^4.5.7",
+    "@mikro-orm/postgresql": "^4.5.7",
+    "env-cmd": "^10.1.0",
+    "pg": "^8.7.1"
+  }
+}
