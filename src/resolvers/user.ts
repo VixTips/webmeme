@@ -5,6 +5,13 @@ import { Arg, Ctx, Field, InputType, Mutation, ObjectType, Query, Resolver } fro
 //hashing
 import argon2 from 'argon2';
 
+
+declare module 'express-session' {
+    export interface Session {
+      userId: number;
+    }
+  }
+
 @InputType()
 class UserPassInput {
     @Field( () => String )
@@ -36,6 +43,9 @@ class UserResponse{
     @Field( () => User, {nullable: true})
     user?: User;
 }
+
+
+
 
 @Resolver()
 export class UserResolver
@@ -72,7 +82,7 @@ export class UserResolver
     @Mutation(() => UserResponse)
     async Login(
        @Arg( 'options', ()=> UserPassInput) options: UserPassInput,
-       @Ctx() { em }: MyContext
+       @Ctx() { em, req}: MyContext
     ): Promise<UserResponse>
     {
 
@@ -95,6 +105,8 @@ export class UserResolver
                     [{field: "password", message: "password is incorrect"}]
             }
         }
+
+        req.session.userId = user.id;
 
         return { user: user};
     };
