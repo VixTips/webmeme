@@ -21,7 +21,6 @@ class UserPassInput {
     password: string
 }
 
-
 @ObjectType()
 class FieldError 
 {
@@ -33,7 +32,6 @@ class FieldError
 
 }
 
-
 @ObjectType()
 class UserResponse{
 
@@ -44,16 +42,13 @@ class UserResponse{
     user?: User;
 }
 
-
-
-
 @Resolver()
 export class UserResolver
 {
     @Mutation(() => UserResponse)
     async Register(
        @Arg( 'options', ()=> UserPassInput) options: UserPassInput,
-       @Ctx() { em }: MyContext
+       @Ctx() { em, req }: MyContext
     ): Promise<UserResponse>
     {
         const hashedPwd = await argon2.hash(options.password);
@@ -75,14 +70,14 @@ export class UserResolver
             return {errors: [{field:"generic", message:"registration error"}]};
         }
 
+        req.session.userId = user.id;
         return {user: user};
     };
-
 
     @Mutation(() => UserResponse)
     async Login(
        @Arg( 'options', ()=> UserPassInput) options: UserPassInput,
-       @Ctx() { em, req}: MyContext
+       @Ctx() { em, req }: MyContext
     ): Promise<UserResponse>
     {
 
@@ -107,11 +102,8 @@ export class UserResolver
         }
 
         req.session.userId = user.id;
-
         return { user: user};
     };
-
-
 
     @Query( () => User, {nullable: true})
     FindUser(
@@ -121,4 +113,17 @@ export class UserResolver
     {
         return em.findOne(User, {username: username});
     };
+
+    @Query( () => User, {nullable: true})
+    async Me(
+        @Ctx() {em, req}: MyContext
+    ) : Promise<User | null>
+    {
+        if (!req.session.userId) {
+            return null;
+        }
+        else {
+            return await em.findOne(User, {id: req.session.userId})
+        }
+    }
 }

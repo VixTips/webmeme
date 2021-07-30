@@ -13,6 +13,9 @@ import session from 'express-session';
 import connectRedis from 'connect-redis';
 import { MyContext } from './types';
 
+import cors from 'cors';
+
+
 //god help me wtf is this
 const corsOptions =
 {
@@ -29,7 +32,7 @@ const corsOptions =
 const cookieOptions: session.CookieOptions =
 {
     maxAge: 1000*60*60*24*265*10, //10 years
-    httpOnly: false,
+    httpOnly: true,
     secure: true,    //@victor enable in prod
     sameSite: "none"
 }
@@ -57,7 +60,8 @@ const main = async () =>
             secret: "testest",
             resave: false
             }
-        )
+        ),
+        cors(corsOptions)
     );
 
     const apolloServer = new ApolloServer(

@@ -6,6 +6,9 @@
 - npm/react/nodejs/typescript basics...
 - decorators
 
+#### todos
+- cleanup the code
+
 #### future of this project
 
 phase 1) create chatroom / forum

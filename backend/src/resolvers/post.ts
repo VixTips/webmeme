@@ -15,12 +15,12 @@ export class PostResolver
     }
 
     @Query( () => Post, {nullable: true})
-    GetPost(
+    async GetPost(
         @Arg('id', () => Int ) id: number,
         @Ctx() { em }: MyContext
         ): Promise<Post | null>
     {
-        return em.findOne(Post, {id});
+        return await em.findOne(Post, {id});
     }
 
     @Mutation( () => Post)
