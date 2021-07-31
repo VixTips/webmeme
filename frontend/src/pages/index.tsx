@@ -1,7 +1,13 @@
+import { Box } from "@chakra-ui/react";
+import NavBar from "../components/navBar"
+
 const Index = () => (
-  <div>
-    Hello world!
-  </div>
-)
+  <>
+    <NavBar/>
+    <div>
+      Main Page
+    </div>
+  </>
+);
 
 export default Index

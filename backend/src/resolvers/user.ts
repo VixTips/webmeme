@@ -51,6 +51,12 @@ export class UserResolver
        @Ctx() { em, req }: MyContext
     ): Promise<UserResponse>
     {
+
+        if (options.username.length <= 2 || options.password.length <=2 )
+        {
+            return {errors: [{field:"password", message:"Username or Password too short"}]};
+
+        }
         const hashedPwd = await argon2.hash(options.password);
 
         const user = await em.create(
@@ -67,7 +73,7 @@ export class UserResolver
         }
         catch
         {
-            return {errors: [{field:"generic", message:"registration error"}]};
+            return {errors: [{field:"password", message:"user already exists"}]};
         }
 
         req.session.userId = user.id;
@@ -87,7 +93,7 @@ export class UserResolver
         {
             return {
                 errors: 
-                    [{field: "username", message: "user not found"}]
+                    [{field: "username", message: "User not found"}]
             }
         }
 
@@ -97,7 +103,7 @@ export class UserResolver
         {
             return {
                 errors: 
-                    [{field: "password", message: "password is incorrect"}]
+                    [{field: "password", message: "Password is incorrect"}]
             }
         }
 

@@ -24,7 +24,8 @@ const corsOptions =
      'http://localhost:4000/graphql',
      'https://localhost:4000',
      'test',
-     'https://$studio.apollographql.com'
+     'https://$studio.apollographql.com',
+     'http://localhost:3000'
     ],
     credentials: true
 }
@@ -33,8 +34,8 @@ const cookieOptions: session.CookieOptions =
 {
     maxAge: 1000*60*60*24*265*10, //10 years
     httpOnly: true,
-    secure: true,    //@victor enable in prod
-    sameSite: "none"
+    secure: false,    //@victor enable in prod
+    sameSite: "lax"
 }
 
 
@@ -78,7 +79,7 @@ const main = async () =>
 
     await apolloServer.start();
     //cors must be applies to middleware, NOT express...
-    apolloServer.applyMiddleware( { app, cors: corsOptions } );
+    apolloServer.applyMiddleware( { app, cors: corsOptions} );
 
     app.listen(4000, () =>
         {

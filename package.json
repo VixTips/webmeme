@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "graphql": "^15.5.1",
+    "urlq": "^0.1.0"
+  }
+}
