@@ -27,6 +27,8 @@
     "@graphql-codegen/typescript-operations": "1.18.4",
     "@graphql-codegen/typescript-react-apollo": "2.3.1",
     "@graphql-codegen/typescript-urql": "^2.0.11",
+    "@types/cors": "^2.8.12",
+    "@urql/exchange-auth": "^0.1.4",
     "typescript": "^4.3.5"
   }
 }

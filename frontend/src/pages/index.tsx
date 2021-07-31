@@ -1,12 +1,14 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import NavBar from "../components/navBar"
 
 const Index = () => (
   <>
     <NavBar/>
-    <div>
-      Main Page
-    </div>
+    <Flex>
+      <h1 style={{margin:"auto", padding:"40px", fontSize: "50px"}}>
+        Main Page
+      </h1>
+    </Flex>
   </>
 );
 

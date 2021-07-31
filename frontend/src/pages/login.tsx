@@ -1,11 +1,12 @@
 import React from 'react'
 import { Form, Formik } from 'formik'
-import { Box, Button} from '@chakra-ui/react';
+import { Box, Button, Heading} from '@chakra-ui/react';
 import Wrapper from '../components/wrapper';
 import InputField from '../components/inputField';
-import { useLoginMutation, useRegisterMutation } from '../generated/graphql';
+import { useLoginMutation } from '../generated/graphql';
 import { toErrorMap } from '../utils/toErrorMap';
 import { useRouter } from 'next/router';
+import NavBar from '../components/navBar';
 
 interface loginProps
 {
@@ -19,55 +20,59 @@ const Login: React.FC<loginProps> = () =>
     const router = useRouter()
 
     return (
-        <Wrapper variant="small"> 
-            <Formik 
-                initialValues={ {username: "", password: ""} }
-                onSubmit=
-                { 
-                   async (value, {setErrors}) => 
-                    {
-                        console.log(value);
-                        const resp = await login({loginOptions: value});
-
-                        console.log(resp.data);
-
-                        if (resp.data?.Login.errors)
+        <>
+            <NavBar/>
+            <Heading textAlign="center"> Login </Heading>
+            <Wrapper variant="small"> 
+                <Formik 
+                    initialValues={ {username: "", password: ""} }
+                    onSubmit=
+                    { 
+                    async (value, {setErrors}) => 
                         {
-                            setErrors( toErrorMap(resp.data.Login.errors))
-                        } 
-                        else if (resp.data?.Login.user)
-                        {
-                            router.push("/")
+                            console.log(value);
+                            const resp = await login({loginOptions: value});
+
+                            console.log(resp.data);
+
+                            if (resp.data?.Login.errors)
+                            {
+                                setErrors( toErrorMap(resp.data.Login.errors))
+                            } 
+                            else if (resp.data?.Login.user)
+                            {
+                                router.push("/")
+                            }
                         }
                     }
-                }
-            >
-            {
-                ({isSubmitting}) => 
-                (
-                    <Form>
-                        <InputField
-                            name="username"
-                            placeholder=""
-                            label="Username"
-                        />
-                        <Box mt={4}>
+                >
+                {
+                    ({isSubmitting}) => 
+                    (
+                        <Form>
                             <InputField
-                                name="password"
+                                name="username"
                                 placeholder=""
-                                label="Password"
-                                type="password"
+                                label="Username"
                             />
-                        </Box>
-                            <Button mt={4} type="submit" 
-                            color="teal" isLoading={isSubmitting}>
-                                Login
-                            </Button>
-                    </Form>
-                )
-            }
-            </Formik>
-        </Wrapper>
+                            <Box mt={4}>
+                                <InputField
+                                    name="password"
+                                    placeholder=""
+                                    label="Password"
+                                    type="password"
+                                />
+                            </Box>
+                                <Button mt={4} type="submit" 
+                                color="teal" isLoading={isSubmitting}>
+                                    Login
+                                </Button>
+                        </Form>
+                    )
+                }
+                </Formik>
+            </Wrapper>
+        </>
     );
 }
 
