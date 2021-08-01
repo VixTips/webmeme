@@ -3,7 +3,7 @@ import theme from '../theme'
 import {Provider, createClient, dedupExchange, fetchExchange} from 'urql'
 import { authExchange } from '@urql/exchange-auth';
 import { cacheExchange, Cache, QueryInput } from '@urql/exchange-graphcache';
-import { LoginMutation, MeDocument, MeQuery, RegisterMutation } from '../generated/graphql';
+import { LoginMutation, LogoutMutation, MeDocument, MeQuery, RegisterMutation } from '../generated/graphql';
 
 
 function betterUpdateQuery<Result, Query>(
@@ -58,6 +58,15 @@ function betterUpdateQuery<Result, Query>(
                       {
                         return {Me: r.Register.user};
                       }
+                    }
+                  );
+                },
+                Logout: (result, args, cache, info) =>
+                {
+                  cache.updateQuery({query: MeDocument}, (data) =>
+                    {
+                      //clear the cache
+                      return {Me: null} as any;
                     }
                   );
                 },
