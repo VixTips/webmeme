@@ -4,6 +4,7 @@ import { Arg, Ctx, Field, InputType, Mutation, ObjectType, Query, Resolver } fro
 
 //hashing
 import argon2 from 'argon2';
+import { __cookie_name__ } from "../constants";
 
 
 declare module 'express-session' {
@@ -133,5 +134,26 @@ export class UserResolver
         else {
             return await em.findOne(User, {id: req.session.userId})
         }
+    }
+
+
+    @Mutation( () => Boolean)
+    Logout(
+        @Ctx() {req, res}: MyContext
+    )
+    {
+        return new Promise((resolve) => {
+            req.session.destroy((err) =>
+            {
+                if (!err) {
+                    res.clearCookie(__cookie_name__);
+                    resolve(true);
+                }
+                else {
+                    console.log("[SERVER ERR]", err)
+                    resolve(false);
+                }
+            })
+        })
     }
 }
