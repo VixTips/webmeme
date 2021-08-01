@@ -16,26 +16,12 @@ import { MyContext } from './types';
 import cors from 'cors';
 
 
-//god help me wtf is this
-const corsOptions =
-{
-    origin: ['https://studio.apollographql.com',
-     'localhost:4000',
-     'http://localhost:4000/graphql',
-     'https://localhost:4000',
-     'test',
-     'https://$studio.apollographql.com',
-     'http://localhost:3000'
-    ],
-    credentials: true
-}
-
 const cookieOptions: session.CookieOptions =
 {
     maxAge: 1000*60*60*24*265*10, //10 years
     httpOnly: true,
     secure: false,    //@victor enable in prod
-    sameSite: "lax"
+    sameSite: "none"
 }
 
 
@@ -62,7 +48,18 @@ const main = async () =>
             resave: false
             }
         ),
-        cors(corsOptions)
+        cors({
+            origin: ['https://studio.apollographql.com',
+            'https://$studio.apollographql.com',
+             'localhost:4000',
+             'http://localhost:4000/graphql',
+             'https://localhost:4000',
+             'test',
+             'https://$studio.apollographql.com',
+             'http://localhost:3000'
+            ],
+            credentials: true
+        })
     );
 
     const apolloServer = new ApolloServer(
@@ -79,7 +76,7 @@ const main = async () =>
 
     await apolloServer.start();
     //cors must be applies to middleware, NOT express...
-    apolloServer.applyMiddleware( { app, cors: corsOptions} );
+    apolloServer.applyMiddleware( { app, cors: false} );
 
     app.listen(4000, () =>
         {

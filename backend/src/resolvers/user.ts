@@ -125,6 +125,8 @@ export class UserResolver
         @Ctx() {em, req}: MyContext
     ) : Promise<User | null>
     {
+
+        console.log("[SERVER] Me() call")
         if (!req.session.userId) {
             return null;
         }

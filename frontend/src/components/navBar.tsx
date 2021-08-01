@@ -1,4 +1,4 @@
-import { Box, Flex, Link } from "@chakra-ui/react";
+import { Box, Button, Flex, Link } from "@chakra-ui/react";
 import { responsePathAsArray } from "graphql";
 import NextLink from 'next/link'
 import { useMeQuery } from '../generated/graphql';
@@ -19,31 +19,46 @@ const NavBar: React.FC<navBarProps> = () =>
     if (fetching)
     {
         body = (
-            <NextLink href="/login">
-                <Link mr="4" color="white" padding="2">
-                    Login
-                </Link>
-            </NextLink>
+            <>
+                <NextLink href="/login">
+                    <Link mr="4" color="white" padding="2">
+                        Login
+                    </Link>
+                </NextLink>
+                <NextLink href="/register">
+                    <Link mr="4" color="white" padding="2">
+                        Register
+                    </Link>
+                </NextLink>
+            </>
         )
     }
     else if(!data?.Me)
     {
         body = (
-            <NextLink href="/login">
-                <Link mr="4" color="white" padding="2">
-                    Login
-                </Link>
-            </NextLink>
+            <>
+                <NextLink href="/login">
+                    <Link mr="4" color="white" padding="2">
+                        Login
+                    </Link>
+                </NextLink>
+                <NextLink href="/register">
+                    <Link mr="4" color="white" padding="2">
+                        Register
+                    </Link>
+                </NextLink>
+            </>
         )
     }
     else
     {
         body = (
-            <NextLink href="/user">
-                <Link mr="4" color="white" padding="2">
-                    Welcome {data.Me.username}
-                </Link>
-            </NextLink>
+            <>
+            <Flex>
+                <Box mr="4" color="white" >Welcome {data.Me.username}</Box>
+                <Button mr="4" color="white" variant="link">Logout</Button>
+            </Flex>
+            </>
         )
     }
 
@@ -58,11 +73,6 @@ const NavBar: React.FC<navBarProps> = () =>
             </Box>
             <Box ml="auto">
                 { body }
-                <NextLink href="/register">
-                    <Link mr="4" color="white" padding="2">
-                        Register
-                    </Link>
-                </NextLink>
             </Box>
         </Flex>
     );
